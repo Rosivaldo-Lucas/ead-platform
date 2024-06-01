@@ -1,0 +1,15 @@
+services:
+  db-ead-authuser:
+    image: postgres:16.3-alpine3.20
+    container_name: db-ead-authuser
+    environment:
+      POSTGRES_DB: ead-authuser
+      POSTGRES_USER: authuser
+      POSTGRES_PASSWORD: authuser
+    ports:
+      - 5432:5432
+    volumes:
+      - db-data-db-ead-authuser:/var/lib/postgresql/data
+
+volumes:
+  db-data-db-ead-authuser:
