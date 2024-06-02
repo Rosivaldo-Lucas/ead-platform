@@ -48,16 +48,16 @@ public class AuthenticationController {
     public ResponseEntity<?> signup(
             @RequestBody @Validated(UserDTO.UserView.RegistrationPost.class) @JsonView(UserDTO.UserView.RegistrationPost.class) UserDTO userDTO
     ) {
-        log.debug("POST /signup userDTO received: {}", userDTO.toString());
+        log.debug("POST signup userDTO received: {}", userDTO.toString());
 
         if (this.userService.existsByUsername(userDTO.getUsername())) {
-            log.warn("POST /signup Username '{}' is Already Taken", userDTO.getUsername());
+            log.warn("POST signup username {} is Already Taken", userDTO.getUsername());
 
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Error: Username is Already Taken!");
         }
 
         if (this.userService.existsByEmail(userDTO.getEmail())) {
-            log.warn("POST /signup Email '{}' is Already Taken", userDTO.getEmail());
+            log.warn("POST signup email {} is Already Taken", userDTO.getEmail());
 
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Error: Email is Already Taken!");
         }
@@ -71,8 +71,8 @@ public class AuthenticationController {
 
         this.userService.save(newUser);
 
-        log.debug("POST /signup user saved: {}", newUser.toString());
-        log.info("POST /signup user successfully idUser: {}", newUser.getId());
+        log.debug("POST signup idUser saved: {}", newUser.getId());
+        log.info("POST signup user successfully idUser: {}", newUser.getId());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
     }

@@ -53,7 +53,7 @@ public class UserController {
             @PathVariable UUID id,
             @RequestBody @Validated(UserDTO.UserView.UserPut.class) @JsonView(UserDTO.UserView.UserPut.class) UserDTO userDTO
     ) {
-        log.debug("PUT /users/{} updateUser userDTO received {}", id, userDTO.toString());
+        log.debug("PUT updateUser userDTO received {}", userDTO.toString());
 
         Optional<User> userOptional = this.userService.findById(id);
 
@@ -66,8 +66,8 @@ public class UserController {
 
             this.userService.save(user);
 
-            log.debug("PUT /users/{} user saved: {}", id, user.toString());
-            log.info("PUT /users/{} user updated successfully idUser: {}", id, id);
+            log.debug("PUT updateUser idUser updated {}", id);
+            log.info("PUT updateUser user updated successfully idUser {}", id);
 
             return ResponseEntity.status(HttpStatus.OK).body(user);
         } else {
@@ -80,10 +80,14 @@ public class UserController {
             @PathVariable UUID id,
             @RequestBody @Validated(UserDTO.UserView.PasswordChangePut.class) @JsonView(UserDTO.UserView.PasswordChangePut.class) UserDTO userDTO
     ) {
+        log.debug("PUT updatePassword userDTO received {}", userDTO.toString());
+
         Optional<User> userOptional = this.userService.findById(id);
 
         if (userOptional.isPresent()) {
             if (!userDTO.getOldPassword().equals(userOptional.get().getPassword())) {
+                log.warn("PUT updatePassword Mismatched old passwords idUser {}", userDTO.getId());
+
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Error: Mismatched old passwords!");
             }
 
@@ -92,6 +96,9 @@ public class UserController {
             user.setUpdatedAt(LocalDateTime.now(ZoneId.of("UTC")));
 
             this.userService.save(user);
+
+            log.debug("PUT updatePassword idUser updated {}", id);
+            log.info("PUT updatePassword user updated successfully idUser {}", id);
 
             return ResponseEntity.status(HttpStatus.OK).body("Password updated successfully!");
         } else {
@@ -104,6 +111,8 @@ public class UserController {
             @PathVariable UUID id,
             @RequestBody @Validated(UserDTO.UserView.ImageChangePut.class) @JsonView(UserDTO.UserView.ImageChangePut.class) UserDTO userDTO
     ) {
+        log.debug("PUT updateImage userDTO received {}", userDTO.toString());
+
         Optional<User> userOptional = this.userService.findById(id);
 
         if (userOptional.isPresent()) {
@@ -113,6 +122,9 @@ public class UserController {
 
             this.userService.save(user);
 
+            log.debug("PUT updateImage idUser updated {}", id);
+            log.info("PUT updateImage user updated successfully idUser {}", id);
+
             return ResponseEntity.status(HttpStatus.OK).body(user);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
@@ -121,10 +133,15 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable UUID id) {
+        log.debug("DELETE deleteUser idUser received: {}", id);
+
         Optional<User> userOptional = this.userService.findById(id);
 
         if (userOptional.isPresent()) {
             this.userService.delete(userOptional.get());
+
+            log.debug("DELETE deleteUser idUser deleted {}", id);
+            log.info("DELETE deleteUser user deleted successfully idUser: {}", id);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body("User deleted successfully.");
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
