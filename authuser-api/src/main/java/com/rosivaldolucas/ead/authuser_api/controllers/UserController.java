@@ -5,6 +5,7 @@ import com.rosivaldolucas.ead.authuser_api.dtos.UserDTO;
 import com.rosivaldolucas.ead.authuser_api.models.User;
 import com.rosivaldolucas.ead.authuser_api.services.UserService;
 import com.rosivaldolucas.ead.authuser_api.specifications.SpecificationTemplate;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,6 +21,7 @@ import java.time.ZoneId;
 import java.util.Optional;
 import java.util.UUID;
 
+@Log4j2
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/users")
@@ -51,6 +53,8 @@ public class UserController {
             @PathVariable UUID id,
             @RequestBody @Validated(UserDTO.UserView.UserPut.class) @JsonView(UserDTO.UserView.UserPut.class) UserDTO userDTO
     ) {
+        log.debug("PUT /users/{} updateUser userDTO received {}", id, userDTO.toString());
+
         Optional<User> userOptional = this.userService.findById(id);
 
         if (userOptional.isPresent()) {
@@ -61,6 +65,9 @@ public class UserController {
             user.setUpdatedAt(LocalDateTime.now(ZoneId.of("UTC")));
 
             this.userService.save(user);
+
+            log.debug("PUT /users/{} user saved: {}", id, user.toString());
+            log.info("PUT /users/{} user updated successfully idUser: {}", id, id);
 
             return ResponseEntity.status(HttpStatus.OK).body(user);
         } else {
