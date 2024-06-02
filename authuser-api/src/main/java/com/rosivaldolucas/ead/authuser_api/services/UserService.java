@@ -5,6 +5,7 @@ import com.rosivaldolucas.ead.authuser_api.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,8 +22,8 @@ public class UserService {
         return this.userRepository.findAll();
     }
 
-    public Page<User> findAll(Pageable pageable) {
-        return this.userRepository.findAll(pageable);
+    public Page<User> findAll(Specification<User> specification, Pageable pageable) {
+        return this.userRepository.findAll(specification, pageable);
     }
 
     public Optional<User> findById(UUID id) {
