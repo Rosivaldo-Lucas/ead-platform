@@ -3,6 +3,8 @@ package com.rosivaldolucas.ead.authuser_api.services;
 import com.rosivaldolucas.ead.authuser_api.models.User;
 import com.rosivaldolucas.ead.authuser_api.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +19,10 @@ public class UserService {
 
     public List<User> findAll() {
         return this.userRepository.findAll();
+    }
+
+    public Page<User> findAll(Pageable pageable) {
+        return this.userRepository.findAll(pageable);
     }
 
     public Optional<User> findById(UUID id) {
