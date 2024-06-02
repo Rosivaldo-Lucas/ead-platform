@@ -48,11 +48,16 @@ public class Course implements Serializable {
     @Column(nullable = false)
     private UUID userInstructor;
 
+    // @OnDelete(action = OnDeleteAction.CASCADE) - MAIS PERFORMATICO / SEM CONTROLE DO DELETE
+    // cascade = CascadeType.ALL, orphanRemoval = true
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Fetch(FetchMode.SUBSELECT)
-//    @OnDelete(action = OnDeleteAction.CASCADE) // MAIS PERFORMATICO / SEM CONTROLE DO DELETE
-    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY) // cascade = CascadeType.ALL, orphanRemoval = true
+    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
     private Set<Module> modules = new HashSet<>();
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
+    private Set<CourseUser> courseUsers = new HashSet<>();
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime createdAt;
