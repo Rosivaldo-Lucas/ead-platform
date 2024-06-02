@@ -2,6 +2,7 @@ package com.rosivaldolucas.ead.authuser_api.dtos;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonView;
+import com.rosivaldolucas.ead.authuser_api.validation.UsernameConstraint;
 import lombok.Data;
 
 import javax.validation.constraints.Email;
@@ -38,6 +39,7 @@ public class UserDTO {
 
     @NotBlank(groups = UserView.RegistrationPost.class)
     @Size(min = 4, max = 50, groups = UserView.RegistrationPost.class)
+    @UsernameConstraint(groups = UserView.RegistrationPost.class)
     @JsonView(UserView.RegistrationPost.class)
     private String username;
 
