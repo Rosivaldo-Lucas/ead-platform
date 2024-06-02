@@ -50,7 +50,8 @@ public class Course implements Serializable {
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Fetch(FetchMode.SUBSELECT)
-    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
+//    @OnDelete(action = OnDeleteAction.CASCADE) // MAIS PERFORMATICO / SEM CONTROLE DO DELETE
+    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY) // cascade = CascadeType.ALL, orphanRemoval = true
     private Set<Module> modules = new HashSet<>();
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
