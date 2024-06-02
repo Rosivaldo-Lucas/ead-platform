@@ -1,5 +1,6 @@
 package com.rosivaldolucas.ead.authuser_api.controllers;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.rosivaldolucas.ead.authuser_api.dtos.UserDTO;
 import com.rosivaldolucas.ead.authuser_api.enums.UserStatus;
 import com.rosivaldolucas.ead.authuser_api.enums.UserType;
@@ -23,7 +24,9 @@ public class AuthenticationController {
     private UserService userService;
 
     @PostMapping("/signup")
-    public ResponseEntity<?> signup(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<?> signup(
+            @RequestBody @JsonView(UserDTO.UserView.RegistrationPost.class) UserDTO userDTO
+    ) {
         if (this.userService.existsByUsername(userDTO.getUsername())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Error: Username is Already Taken!");
         }
