@@ -3,9 +3,14 @@ package com.rosivaldolucas.ead.course_api.controllers;
 import com.rosivaldolucas.ead.course_api.dtos.CourseDTO;
 import com.rosivaldolucas.ead.course_api.models.Course;
 import com.rosivaldolucas.ead.course_api.services.CourseService;
+import com.rosivaldolucas.ead.course_api.specifications.SpecificationTemplate;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,8 +32,17 @@ public class CourseController {
     private CourseService courseService;
 
     @GetMapping
-    public ResponseEntity<List<Course>> getAllCourses() {
-        return ResponseEntity.ok(courseService.findAll());
+    public ResponseEntity<Page<Course>> getAllCourses(
+            @RequestParam(required = false) UUID idUser,
+            SpecificationTemplate.CourseSpec spec,
+            @PageableDefault(sort = "idCourse", direction = Sort.Direction.ASC)Pageable pageable
+    ) {
+
+        if (idUser != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(this.courseService.findAll(SpecificationTemplate.courseUserId(idUser).and(spec), pageable));
+        } else {
+            return ResponseEntity.ok(courseService.findAll(spec, pageable));
+        }
     }
 
     @GetMapping("/{id}")

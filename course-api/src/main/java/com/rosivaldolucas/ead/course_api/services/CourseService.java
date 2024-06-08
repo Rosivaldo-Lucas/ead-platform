@@ -7,6 +7,9 @@ import com.rosivaldolucas.ead.course_api.repositories.CourseRepository;
 import com.rosivaldolucas.ead.course_api.repositories.LessonRepository;
 import com.rosivaldolucas.ead.course_api.repositories.ModuleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,8 +29,8 @@ public class CourseService {
     @Autowired
     private LessonRepository lessonRepository;
 
-    public List<Course> findAll() {
-        return this.courseRepository.findAll();
+    public Page<Course> findAll(Specification<Course> spec, Pageable pageable) {
+        return this.courseRepository.findAll(spec, pageable);
     }
 
     public Optional<Course> findById(UUID id) {
