@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class CourseService {
@@ -23,6 +25,18 @@ public class CourseService {
 
     @Autowired
     private LessonRepository lessonRepository;
+
+    public List<Course> findAll() {
+        return this.courseRepository.findAll();
+    }
+
+    public Optional<Course> findById(UUID id) {
+        return this.courseRepository.findById(id);
+    }
+
+    public void save(Course course) {
+        this.courseRepository.save(course);
+    }
 
     @Transactional
     public void delete(Course course) {
