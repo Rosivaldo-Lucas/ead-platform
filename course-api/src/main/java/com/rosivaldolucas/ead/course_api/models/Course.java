@@ -59,10 +59,10 @@ public class Course implements Serializable {
     @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
     private Set<CourseUser> courseUsers = new HashSet<>();
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     private LocalDateTime createdAt;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     private LocalDateTime updatedAt;
 
 }
