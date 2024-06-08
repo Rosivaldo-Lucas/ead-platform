@@ -39,7 +39,7 @@ public class Module implements Serializable {
     @OneToMany(mappedBy = "module", fetch = FetchType.LAZY)
     private Set<Lesson> lessons = new HashSet<>();
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     private LocalDateTime createdAt;
 
 }
