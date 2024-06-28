@@ -27,3 +27,8 @@ logging:
     com.rosivaldolucas.ead.authuser_api: TRACE
     org.springframework.web: DEBUG
     org.hibernate: INFO
+
+ead:
+  api:
+    url:
+      course-api: 'http://localhost:8087'
