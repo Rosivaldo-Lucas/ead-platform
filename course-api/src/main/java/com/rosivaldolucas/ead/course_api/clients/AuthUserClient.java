@@ -1,5 +1,6 @@
 package com.rosivaldolucas.ead.course_api.clients;
 
+import com.rosivaldolucas.ead.course_api.dtos.CourseUserDTO;
 import com.rosivaldolucas.ead.course_api.dtos.PageResponseDTO;
 import com.rosivaldolucas.ead.course_api.dtos.UserDTO;
 import com.rosivaldolucas.ead.course_api.services.UtilsService;
@@ -64,6 +65,16 @@ public class AuthUserClient {
     String url = this.REQUEST_URI_AUTHUSER + "/users/" + userId;
 
     return this.restTemplate.exchange(url, HttpMethod.GET, null, UserDTO.class);
+  }
+
+  public void postSubscriptionUserInCourse(UUID courseId, UUID userId) {
+    String url = this.REQUEST_URI_AUTHUSER + "/users/" + userId + "/courses/subscription";
+
+    CourseUserDTO courseUserDTO = new CourseUserDTO();
+    courseUserDTO.setCourseId(courseId);
+    courseUserDTO.setUserId(userId);
+
+    this.restTemplate.postForObject(url, courseUserDTO, String.class);
   }
 
 }
