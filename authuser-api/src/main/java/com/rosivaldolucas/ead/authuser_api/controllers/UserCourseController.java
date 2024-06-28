@@ -22,15 +22,15 @@ import java.util.UUID;
 @RestController
 public class UserCourseController {
 
-    @Autowired
-    private UserClient userClient;
+  @Autowired
+  private UserClient userClient;
 
-    @GetMapping("/users/{userId}/courses")
-    public ResponseEntity<Page<CourseDTO>> getAllCoursesByUser(
-            @PathVariable UUID userId,
-            @PageableDefault(sort = "courseId", direction = Sort.Direction.ASC) Pageable pageable
-    ) {
-        return ResponseEntity.status(HttpStatus.OK).body(this.userClient.getAllCoursesByUser(userId, pageable));
-    }
+  @GetMapping("/users/{userId}/courses")
+  public ResponseEntity<Page<CourseDTO>> getAllCoursesByUser(
+          @PathVariable UUID userId,
+          @PageableDefault(sort = "courseId", direction = Sort.Direction.ASC) Pageable pageable
+  ) {
+    return ResponseEntity.status(HttpStatus.OK).body(this.userClient.getAllCoursesByUser(userId, pageable));
+  }
 
 }

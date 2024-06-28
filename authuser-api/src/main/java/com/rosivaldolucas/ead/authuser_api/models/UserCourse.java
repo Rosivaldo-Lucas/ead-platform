@@ -14,18 +14,18 @@ import java.util.UUID;
 @Table(name = "USER_COURSE")
 public class UserCourse implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private UUID id;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_USER")
-    private User user;
+  @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+  @ManyToOne(optional = false, fetch = FetchType.LAZY)
+  @JoinColumn(name = "ID_USER")
+  private User user;
 
-    @Column(nullable = false)
-    private UUID idCourse;
+  @Column(nullable = false)
+  private UUID idCourse;
 
 }

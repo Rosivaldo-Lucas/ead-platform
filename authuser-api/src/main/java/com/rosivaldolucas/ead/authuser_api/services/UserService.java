@@ -15,35 +15,35 @@ import java.util.UUID;
 @Service
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+  @Autowired
+  private UserRepository userRepository;
 
-    public List<User> findAll() {
-        return this.userRepository.findAll();
-    }
+  public List<User> findAll() {
+    return this.userRepository.findAll();
+  }
 
-    public Page<User> findAll(Specification<User> specification, Pageable pageable) {
-        return this.userRepository.findAll(specification, pageable);
-    }
+  public Page<User> findAll(Specification<User> specification, Pageable pageable) {
+    return this.userRepository.findAll(specification, pageable);
+  }
 
-    public Optional<User> findById(UUID id) {
-        return this.userRepository.findById(id);
-    }
+  public Optional<User> findById(UUID id) {
+    return this.userRepository.findById(id);
+  }
 
-    public boolean existsByUsername(String username) {
-        return this.userRepository.existsByUsername(username);
-    }
+  public boolean existsByUsername(String username) {
+    return this.userRepository.existsByUsername(username);
+  }
 
-    public boolean existsByEmail(String email) {
-        return this.userRepository.existsByEmail(email);
-    }
+  public boolean existsByEmail(String email) {
+    return this.userRepository.existsByEmail(email);
+  }
 
-    public void delete(User user) {
-        this.userRepository.delete(user);
-    }
+  public void delete(User user) {
+    this.userRepository.delete(user);
+  }
 
-    public void save(User user) {
-        this.userRepository.save(user);
-    }
+  public void save(User user) {
+    this.userRepository.save(user);
+  }
 
 }

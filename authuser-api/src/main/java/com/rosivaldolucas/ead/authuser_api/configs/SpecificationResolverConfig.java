@@ -12,14 +12,14 @@ import java.util.List;
 @Configuration
 public class SpecificationResolverConfig extends WebMvcConfigurationSupport {
 
-    @Override
-    protected void addArgumentResolvers(@NonNull List<HandlerMethodArgumentResolver> argumentResolvers) {
-        PageableHandlerMethodArgumentResolver pageableResolver = new PageableHandlerMethodArgumentResolver();
+  @Override
+  protected void addArgumentResolvers(@NonNull List<HandlerMethodArgumentResolver> argumentResolvers) {
+    PageableHandlerMethodArgumentResolver pageableResolver = new PageableHandlerMethodArgumentResolver();
 
-        argumentResolvers.add(new SpecificationArgumentResolver());
-        argumentResolvers.add(pageableResolver);
+    argumentResolvers.add(new SpecificationArgumentResolver());
+    argumentResolvers.add(pageableResolver);
 
-        super.addArgumentResolvers(argumentResolvers);
-    }
+    super.addArgumentResolvers(argumentResolvers);
+  }
 
 }

@@ -9,18 +9,18 @@ import java.util.UUID;
 @Data
 public class CourseDTO {
 
-    private UUID id;
+  private UUID id;
 
-    private String name;
+  private String name;
 
-    private String description;
+  private String description;
 
-    private String imageUrl;
+  private String imageUrl;
 
-    private CourseStatus courseStatus;
+  private CourseStatus courseStatus;
 
-    private CourseLevel courseLevel;
+  private CourseLevel courseLevel;
 
-    private UUID userInstructor;
+  private UUID userInstructor;
 
 }

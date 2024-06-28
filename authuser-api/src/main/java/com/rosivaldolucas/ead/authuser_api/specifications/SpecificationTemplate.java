@@ -13,21 +13,21 @@ import java.util.UUID;
 
 public class SpecificationTemplate {
 
-    @And({
-            @Spec(path = "userType", spec = Equal.class),
-            @Spec(path = "userStatus", spec = Equal.class),
-            @Spec(path = "fullName", spec = Like.class),
-            @Spec(path = "email", spec = Like.class)
-    })
-    public interface UserSpecification extends Specification<User> { }
+  @And({
+          @Spec(path = "userType", spec = Equal.class),
+          @Spec(path = "userStatus", spec = Equal.class),
+          @Spec(path = "fullName", spec = Like.class),
+          @Spec(path = "email", spec = Like.class)
+  })
+  public interface UserSpecification extends Specification<User> { }
 
-    public static Specification<User> userIdCourse(UUID idCourse) {
-        return (root, query, cb) -> {
-            query.distinct(true);
-            Join<User, UserCourse> userJoinUserCourse = root.join("userCourses");
+  public static Specification<User> userIdCourse(UUID idCourse) {
+    return (root, query, cb) -> {
+      query.distinct(true);
+      Join<User, UserCourse> userJoinUserCourse = root.join("userCourses");
 
-            return cb.equal(userJoinUserCourse.get("idCourse"), idCourse);
-        };
-    }
+      return cb.equal(userJoinUserCourse.get("idCourse"), idCourse);
+    };
+  }
 
 }

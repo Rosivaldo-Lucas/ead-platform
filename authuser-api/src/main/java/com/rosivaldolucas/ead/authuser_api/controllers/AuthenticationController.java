@@ -23,58 +23,58 @@ import java.time.ZoneId;
 @RequestMapping("/auth")
 public class AuthenticationController {
 
-    @Autowired
-    private UserService userService;
+  @Autowired
+  private UserService userService;
 
-    @GetMapping
-    public String index() {
-        // NIVEIS DE LOGS
-        log.trace("TRACE");
-        log.debug("DEBUG");
-        log.info("INFO");
-        log.warn("WARN");
-        log.error("ERROR");
+  @GetMapping
+  public String index() {
+    // NIVEIS DE LOGS
+    log.trace("TRACE");
+    log.debug("DEBUG");
+    log.info("INFO");
+    log.warn("WARN");
+    log.error("ERROR");
 
-        try {
-            throw new RuntimeException("RuntimeException");
-        } catch (Exception ex) {
-            log.error("ERROR", ex);
-        }
-
-        return "Logging Spring Boot...";
+    try {
+      throw new RuntimeException("RuntimeException");
+    } catch (Exception ex) {
+      log.error("ERROR", ex);
     }
 
-    @PostMapping("/signup")
-    public ResponseEntity<?> signup(
-            @RequestBody @Validated(UserDTO.UserView.RegistrationPost.class) @JsonView(UserDTO.UserView.RegistrationPost.class) UserDTO userDTO
-    ) {
-        log.debug("POST signup userDTO received: {}", userDTO.toString());
+    return "Logging Spring Boot...";
+  }
 
-        if (this.userService.existsByUsername(userDTO.getUsername())) {
-            log.warn("POST signup username {} is Already Taken", userDTO.getUsername());
+  @PostMapping("/signup")
+  public ResponseEntity<?> signup(
+          @RequestBody @Validated(UserDTO.UserView.RegistrationPost.class) @JsonView(UserDTO.UserView.RegistrationPost.class) UserDTO userDTO
+  ) {
+    log.debug("POST signup userDTO received: {}", userDTO.toString());
 
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Error: Username is Already Taken!");
-        }
+    if (this.userService.existsByUsername(userDTO.getUsername())) {
+      log.warn("POST signup username {} is Already Taken", userDTO.getUsername());
 
-        if (this.userService.existsByEmail(userDTO.getEmail())) {
-            log.warn("POST signup email {} is Already Taken", userDTO.getEmail());
-
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Error: Email is Already Taken!");
-        }
-
-        User newUser = new User();
-        BeanUtils.copyProperties(userDTO, newUser);
-        newUser.setUserStatus(UserStatus.ACTIVE);
-        newUser.setUserType(UserType.STUDENT);
-        newUser.setCreatedAt(LocalDateTime.now(ZoneId.of("UTC")));
-        newUser.setCreatedAt(LocalDateTime.now(ZoneId.of("UTC")));
-
-        this.userService.save(newUser);
-
-        log.debug("POST signup idUser saved: {}", newUser.getId());
-        log.info("POST signup user successfully idUser: {}", newUser.getId());
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
+      return ResponseEntity.status(HttpStatus.CONFLICT).body("Error: Username is Already Taken!");
     }
+
+    if (this.userService.existsByEmail(userDTO.getEmail())) {
+      log.warn("POST signup email {} is Already Taken", userDTO.getEmail());
+
+      return ResponseEntity.status(HttpStatus.CONFLICT).body("Error: Email is Already Taken!");
+    }
+
+    User newUser = new User();
+    BeanUtils.copyProperties(userDTO, newUser);
+    newUser.setUserStatus(UserStatus.ACTIVE);
+    newUser.setUserType(UserType.STUDENT);
+    newUser.setCreatedAt(LocalDateTime.now(ZoneId.of("UTC")));
+    newUser.setCreatedAt(LocalDateTime.now(ZoneId.of("UTC")));
+
+    this.userService.save(newUser);
+
+    log.debug("POST signup idUser saved: {}", newUser.getId());
+    log.info("POST signup user successfully idUser: {}", newUser.getId());
+
+    return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
+  }
 
 }

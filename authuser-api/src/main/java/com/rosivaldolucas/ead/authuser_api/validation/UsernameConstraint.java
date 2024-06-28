@@ -10,8 +10,8 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface UsernameConstraint {
 
-    String message() default "{username.validation.constraints.username}";
-    Class<?>[] groups() default {};
-    Class<? extends Payload>[] payload() default {};
+  String message() default "{username.validation.constraints.username}";
+  Class<?>[] groups() default {};
+  Class<? extends Payload>[] payload() default {};
 
 }

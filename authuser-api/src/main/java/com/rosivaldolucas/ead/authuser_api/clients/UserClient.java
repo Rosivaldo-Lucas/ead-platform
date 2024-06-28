@@ -23,37 +23,37 @@ import java.util.UUID;
 @Component
 public class UserClient {
 
-    @Autowired
-    private RestTemplate restTemplate;
+  @Autowired
+  private RestTemplate restTemplate;
 
-    @Autowired
-    private UtilsService utilsService;
+  @Autowired
+  private UtilsService utilsService;
 
-    public Page<CourseDTO> getAllCoursesByUser(UUID userId, Pageable pageable) {
-        List<CourseDTO> searchResult = null;
+  public Page<CourseDTO> getAllCoursesByUser(UUID userId, Pageable pageable) {
+    List<CourseDTO> searchResult = null;
 
-        String url = this.utilsService.createUrl(userId, pageable);
+    String url = this.utilsService.createUrl(userId, pageable);
 
-        log.debug("Requesting courses from {}", url);
-        log.info("Requesting courses from {}", url);
+    log.debug("Requesting courses from {}", url);
+    log.info("Requesting courses from {}", url);
 
-        try {
-            ParameterizedTypeReference<PageResponseDTO<CourseDTO>> responseType = new ParameterizedTypeReference<>() {};
+    try {
+      ParameterizedTypeReference<PageResponseDTO<CourseDTO>> responseType = new ParameterizedTypeReference<>() {};
 
-            ResponseEntity<PageResponseDTO<CourseDTO>> result = restTemplate.exchange(url, HttpMethod.GET, null, responseType);
+      ResponseEntity<PageResponseDTO<CourseDTO>> result = restTemplate.exchange(url, HttpMethod.GET, null, responseType);
 
-            searchResult = Objects.requireNonNull(result.getBody()).getContent();
+      searchResult = Objects.requireNonNull(result.getBody()).getContent();
 
-            log.debug("Response number of elements {}", searchResult.size());
-        } catch (HttpStatusCodeException e) {
-            log.error("Error while requesting courses from {}", url);
-            log.error("Error {}", e.getResponseBodyAsString());
-        }
-
-        log.info("Ending requesting courses from {}", url);
-        log.info("Ending requesting courses for userId {}", userId);
-
-        return new PageImpl<>(Objects.requireNonNull(searchResult));
+      log.debug("Response number of elements {}", searchResult.size());
+    } catch (HttpStatusCodeException e) {
+      log.error("Error while requesting courses from {}", url);
+      log.error("Error {}", e.getResponseBodyAsString());
     }
+
+    log.info("Ending requesting courses from {}", url);
+    log.info("Ending requesting courses for userId {}", userId);
+
+    return new PageImpl<>(Objects.requireNonNull(searchResult));
+  }
 
 }
