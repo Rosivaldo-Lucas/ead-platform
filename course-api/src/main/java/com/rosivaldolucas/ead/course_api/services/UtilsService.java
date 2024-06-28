@@ -1,5 +1,6 @@
 package com.rosivaldolucas.ead.course_api.services;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -7,6 +8,9 @@ import java.util.UUID;
 
 @Service
 public class UtilsService {
+
+    @Value("${ead.api.url.authuser}")
+    private String REQUEST_URI;
 
     private final String REQUEST_URI = "http://localhost:8087";
 
