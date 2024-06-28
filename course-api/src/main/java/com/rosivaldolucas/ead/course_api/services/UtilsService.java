@@ -12,8 +12,6 @@ public class UtilsService {
     @Value("${ead.api.url.authuser}")
     private String REQUEST_URI;
 
-    private final String REQUEST_URI = "http://localhost:8087";
-
     public String createUrl(UUID userId, Pageable pageable) {
         return REQUEST_URI +
                 "/courses?userId=" + userId +
