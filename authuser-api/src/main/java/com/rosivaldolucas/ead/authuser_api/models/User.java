@@ -69,4 +69,8 @@ public class User implements Serializable {
   @Column(nullable = false)
   private LocalDateTime updatedAt;
 
+  public UserCourse convertToUserCourse(UUID courseId) {
+    return new UserCourse(null, this, courseId);
+  }
+
 }

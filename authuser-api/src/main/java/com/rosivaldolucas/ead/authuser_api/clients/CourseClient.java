@@ -22,7 +22,7 @@ import java.util.UUID;
 
 @Log4j2
 @Component
-public class UserClient {
+public class CourseClient {
 
   @Value("${ead.api.url.course-api}")
   private String REQUEST_URI_COURSE_API;
