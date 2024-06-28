@@ -28,81 +28,81 @@ import java.util.UUID;
 @RequestMapping("/courses")
 public class CourseController {
 
-    @Autowired
-    private CourseService courseService;
+  @Autowired
+  private CourseService courseService;
 
-    @GetMapping
-    public ResponseEntity<Page<Course>> getAllCourses(
-            @RequestParam(required = false) UUID idUser,
-            SpecificationTemplate.CourseSpec spec,
-            @PageableDefault(sort = "idCourse", direction = Sort.Direction.ASC)Pageable pageable
-    ) {
+  @GetMapping
+  public ResponseEntity<Page<Course>> getAllCourses(
+          @RequestParam(required = false) UUID idUser,
+          SpecificationTemplate.CourseSpec spec,
+          @PageableDefault(sort = "idCourse", direction = Sort.Direction.ASC)Pageable pageable
+  ) {
 
-        if (idUser != null) {
-            return ResponseEntity.status(HttpStatus.OK).body(this.courseService.findAll(SpecificationTemplate.courseUserId(idUser).and(spec), pageable));
-        } else {
-            return ResponseEntity.ok(courseService.findAll(spec, pageable));
-        }
+    if (idUser != null) {
+      return ResponseEntity.status(HttpStatus.OK).body(this.courseService.findAll(SpecificationTemplate.courseUserId(idUser).and(spec), pageable));
+    } else {
+      return ResponseEntity.ok(courseService.findAll(spec, pageable));
     }
+  }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> findOneCourse(@PathVariable UUID id) {
-        Optional<Course> courseOptional = courseService.findById(id);
+  @GetMapping("/{id}")
+  public ResponseEntity<?> findOneCourse(@PathVariable UUID id) {
+    Optional<Course> courseOptional = courseService.findById(id);
 
-        if (courseOptional.isPresent()) {
-            return ResponseEntity.ok(courseOptional.get());
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Course not found");
-        }
+    if (courseOptional.isPresent()) {
+      return ResponseEntity.ok(courseOptional.get());
+    } else {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Course not found");
     }
+  }
 
-    @PostMapping
-    public ResponseEntity<?> saveCourse(@RequestBody @Valid CourseDTO courseDTO) {
-        log.debug("POST saveCourse courseDTO received {}", courseDTO.toString());
+  @PostMapping
+  public ResponseEntity<?> saveCourse(@RequestBody @Valid CourseDTO courseDTO) {
+    log.debug("POST saveCourse courseDTO received {}", courseDTO.toString());
 
-        Course newCourse = new Course();
-        BeanUtils.copyProperties(courseDTO, newCourse);
+    Course newCourse = new Course();
+    BeanUtils.copyProperties(courseDTO, newCourse);
 
-        newCourse.setCreatedAt(LocalDateTime.now(ZoneId.of("UTC")));
-        newCourse.setUpdatedAt(LocalDateTime.now(ZoneId.of("UTC")));
+    newCourse.setCreatedAt(LocalDateTime.now(ZoneId.of("UTC")));
+    newCourse.setUpdatedAt(LocalDateTime.now(ZoneId.of("UTC")));
 
-        this.courseService.save(newCourse);
+    this.courseService.save(newCourse);
 
-        log.debug("POST saveCourse idCourse saved {}", newCourse.getId());
-        log.info("POST saveCourse course saved successfully idCourse {}", newCourse.getId());
+    log.debug("POST saveCourse idCourse saved {}", newCourse.getId());
+    log.info("POST saveCourse course saved successfully idCourse {}", newCourse.getId());
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(newCourse);
+    return ResponseEntity.status(HttpStatus.CREATED).body(newCourse);
+  }
+
+  @PutMapping("/{id}")
+  public ResponseEntity<?> updateCourse(@PathVariable UUID id, @RequestBody @Valid CourseDTO courseDTO) {
+    Optional<Course> courseOptional = this.courseService.findById(id);
+
+    if (courseOptional.isPresent()) {
+      Course course = courseOptional.get();
+
+      BeanUtils.copyProperties(courseDTO, course, "id");
+      course.setUpdatedAt(LocalDateTime.now(ZoneId.of("UTC")));
+
+      this.courseService.save(course);
+
+      return ResponseEntity.status(HttpStatus.OK).body("Course updated successfully");
+    } else {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Course not found");
     }
+  }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateCourse(@PathVariable UUID id, @RequestBody @Valid CourseDTO courseDTO) {
-        Optional<Course> courseOptional = this.courseService.findById(id);
+  @DeleteMapping("/{id}")
+  public ResponseEntity<?> deleteCourse(@PathVariable UUID id) {
+    Optional<Course> courseOptional = this.courseService.findById(id);
 
-        if (courseOptional.isPresent()) {
-            Course course = courseOptional.get();
+    if (courseOptional.isPresent()) {
+      this.courseService.delete(courseOptional.get());
 
-            BeanUtils.copyProperties(courseDTO, course, "id");
-            course.setUpdatedAt(LocalDateTime.now(ZoneId.of("UTC")));
-
-            this.courseService.save(course);
-
-            return ResponseEntity.status(HttpStatus.OK).body("Course updated successfully");
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Course not found");
-        }
+      return ResponseEntity.status(HttpStatus.OK).body("Course deleted successfully");
+    } else {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Course not found");
     }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteCourse(@PathVariable UUID id) {
-        Optional<Course> courseOptional = this.courseService.findById(id);
-
-        if (courseOptional.isPresent()) {
-            this.courseService.delete(courseOptional.get());
-
-            return ResponseEntity.status(HttpStatus.OK).body("Course deleted successfully");
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Course not found");
-        }
-    }
+  }
 
 }
