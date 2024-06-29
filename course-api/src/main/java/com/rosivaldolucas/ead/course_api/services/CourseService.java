@@ -1,9 +1,11 @@
 package com.rosivaldolucas.ead.course_api.services;
 
 import com.rosivaldolucas.ead.course_api.models.Course;
+import com.rosivaldolucas.ead.course_api.models.CourseUser;
 import com.rosivaldolucas.ead.course_api.models.Lesson;
 import com.rosivaldolucas.ead.course_api.models.Module;
 import com.rosivaldolucas.ead.course_api.repositories.CourseRepository;
+import com.rosivaldolucas.ead.course_api.repositories.CourseUserRepository;
 import com.rosivaldolucas.ead.course_api.repositories.LessonRepository;
 import com.rosivaldolucas.ead.course_api.repositories.ModuleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,9 @@ public class CourseService {
 
     @Autowired
     private LessonRepository lessonRepository;
+
+    @Autowired
+    private CourseUserRepository courseUserRepository;
 
     public Page<Course> findAll(Specification<Course> spec, Pageable pageable) {
         return this.courseRepository.findAll(spec, pageable);
@@ -55,6 +60,12 @@ public class CourseService {
             }
 
             this.moduleRepository.deleteAll(modules);
+        }
+
+        List<CourseUser> courseUserList = this.courseUserRepository.findAllCourseUserIntoCourse(course.getId());
+
+        if (courseUserList.isEmpty()) {
+            this.courseUserRepository.deleteAll(courseUserList);
         }
 
         this.courseRepository.delete(course);
