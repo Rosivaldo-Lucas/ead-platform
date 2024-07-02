@@ -51,7 +51,7 @@ public class UserService {
     if (!userCourseList.isEmpty()) {
       this.userCourseRepository.deleteAll(userCourseList);
     }
-    
+
     this.userRepository.delete(user);
   }
 

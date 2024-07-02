@@ -32,3 +32,10 @@ ead:
   api:
     url:
       course-api: 'http://localhost:8087'
+
+eureka:
+  client:
+    service-url:
+      default-zone: 'http://localhost:8761/eureka'
+  instance:
+    hostname: localhost
