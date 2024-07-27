@@ -21,12 +21,12 @@ public class SpecificationTemplate {
   })
   public interface UserSpecification extends Specification<User> { }
 
-  public static Specification<User> userIdCourse(UUID idCourse) {
+  public static Specification<User> userIdCourse(UUID courseId) {
     return (root, query, cb) -> {
       query.distinct(true);
       Join<User, UserCourse> userJoinUserCourse = root.join("userCourses");
 
-      return cb.equal(userJoinUserCourse.get("idCourse"), idCourse);
+      return cb.equal(userJoinUserCourse.get("idCourse"), courseId);
     };
   }
 

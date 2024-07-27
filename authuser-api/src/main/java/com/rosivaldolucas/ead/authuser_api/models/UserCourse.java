@@ -15,7 +15,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
-@Table(name = "USER_COURSE")
+@Table(name = "user_course_tb")
 public class UserCourse implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -26,10 +26,10 @@ public class UserCourse implements Serializable {
 
   @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
-  @JoinColumn(name = "ID_USER")
+  @JoinColumn(name = "user_id")
   private User user;
 
   @Column(nullable = false)
-  private UUID idCourse;
+  private UUID courseId;
 
 }

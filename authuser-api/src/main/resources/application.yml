@@ -6,9 +6,9 @@ spring:
     name: ead-authuser-service
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/ead-authuser
-    username: authuser
-    password: authuser
+    url: jdbc:postgresql://localhost:5432/db-ead-authuser
+    username: ead-authuser
+    password: ead-authuser
   jpa:
     hibernate:
       ddl-auto: update

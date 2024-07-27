@@ -15,7 +15,7 @@ public class UserCourseService {
   private UserCourseRepository userCourseRepository;
 
   public boolean existsByUserAndCourseId(User user, UUID courseId) {
-    return this.userCourseRepository.existsByUserAndIdCourse(user, courseId);
+    return this.userCourseRepository.existsByUserAndCourseId(user, courseId);
   }
 
   public UserCourse save(UserCourse userCourse) {
