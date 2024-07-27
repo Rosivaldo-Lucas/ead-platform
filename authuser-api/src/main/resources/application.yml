@@ -1,12 +1,12 @@
 server:
-  port: 8087
+  port: 8080
 
 spring:
   application:
     name: ead-authuser-service
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/db-ead-authuser
+    url: jdbc:postgresql://localhost:5430/db-ead-authuser
     username: ead-authuser
     password: ead-authuser
   jpa:

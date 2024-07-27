@@ -1,12 +1,12 @@
 server:
-  port: 8088
+  port: 8081
 
 spring:
   application:
     name: ead-course-service
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5433/db-ead-course
+    url: jdbc:postgresql://localhost:5431/db-ead-course
     username: ead-course
     password: ead-course
   jpa:
@@ -20,6 +20,7 @@ spring:
     properties:
       hibernate:
         show_sql: true
+
 logging:
   level:
     com.rosivaldolucas.ead: TRACE
