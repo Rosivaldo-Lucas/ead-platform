@@ -35,22 +35,22 @@ public class ModuleController {
     @Autowired
     private CourseService courseService;
 
-    @GetMapping("/courses/{idCourse}/modules")
-    public ResponseEntity<?> getAllModulesIntoCourse(@PathVariable UUID idCourse, SpecificationTemplate.ModuleSpec spec, @PageableDefault(sort = "moduleId", direction = Sort.Direction.ASC)Pageable pageable) {
-        Optional<Course> courseOptional = this.courseService.findById(idCourse);
+    @GetMapping("/courses/{courseId}/modules")
+    public ResponseEntity<?> getAllModulesIntoCourse(@PathVariable UUID courseId, SpecificationTemplate.ModuleSpec spec, @PageableDefault(sort = "moduleId", direction = Sort.Direction.ASC)Pageable pageable) {
+        Optional<Course> courseOptional = this.courseService.findById(courseId);
 
         if (courseOptional.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Course not found");
         }
 
-        Page<Module> allModulesIntoCourse = this.moduleService.findAllModulesIntoCourse(SpecificationTemplate.moduleCourseId(idCourse).and(spec), pageable);
+        Page<Module> allModulesIntoCourse = this.moduleService.findAllModulesIntoCourse(SpecificationTemplate.moduleCourseId(courseId).and(spec), pageable);
 
         return ResponseEntity.ok(allModulesIntoCourse);
     }
 
-    @GetMapping("/courses/{idCourse}/modules/{idModule}")
-    public ResponseEntity<?> getOneModuleIntoCourse(@PathVariable UUID idCourse, @PathVariable UUID idModule) {
-        Optional<Module> moduleIntoCourse = this.moduleService.findModuleIntoCourse(idCourse, idModule);
+    @GetMapping("/courses/{courseId}/modules/{moduleId}")
+    public ResponseEntity<?> getOneModuleIntoCourse(@PathVariable UUID courseId, @PathVariable UUID moduleId) {
+        Optional<Module> moduleIntoCourse = this.moduleService.findModuleIntoCourse(courseId, moduleId);
 
         if (moduleIntoCourse.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Module not found for this course");
@@ -59,11 +59,11 @@ public class ModuleController {
         return ResponseEntity.ok(moduleIntoCourse.get());
     }
 
-    @PostMapping("/courses/{idCourse}/modules")
-    public ResponseEntity<?> saveModule(@PathVariable UUID idCourse, @RequestBody @Valid ModuleDTO moduleDTO) {
+    @PostMapping("/courses/{courseId}/modules")
+    public ResponseEntity<?> saveModule(@PathVariable UUID courseId, @RequestBody @Valid ModuleDTO moduleDTO) {
         log.debug("POST saveModule moduleDTO received {}", moduleDTO.toString());
 
-        Optional<Course> courseOptional = this.courseService.findById(idCourse);
+        Optional<Course> courseOptional = this.courseService.findById(courseId);
 
         if (courseOptional.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Course not found");
@@ -83,9 +83,9 @@ public class ModuleController {
         return ResponseEntity.status(HttpStatus.CREATED).body(newModule);
     }
 
-    @PutMapping("/courses/{idCourse}/modules/{idModule}")
-    public ResponseEntity<?> updateCourse(@PathVariable UUID idCourse, @PathVariable UUID idModule, @RequestBody @Valid ModuleDTO moduleDTO) {
-        Optional<Module> moduleOptional = this.moduleService.findModuleIntoCourse(idCourse, idModule);
+    @PutMapping("/courses/{courseId}/modules/{moduleId}")
+    public ResponseEntity<?> updateCourse(@PathVariable UUID courseId, @PathVariable UUID moduleId, @RequestBody @Valid ModuleDTO moduleDTO) {
+        Optional<Module> moduleOptional = this.moduleService.findModuleIntoCourse(courseId, moduleId);
 
         if (moduleOptional.isPresent()) {
             Module module = moduleOptional.get();
@@ -100,9 +100,9 @@ public class ModuleController {
         }
     }
 
-    @DeleteMapping("/courses/{idCource}/modules/{idModule}")
-    public ResponseEntity<?> deleteModule(@PathVariable UUID idCource, @PathVariable UUID idModule) {
-        Optional<Module> moduleIntoCourse = this.moduleService.findModuleIntoCourse(idCource, idModule);
+    @DeleteMapping("/courses/{courseId}/modules/{moduleId}")
+    public ResponseEntity<?> deleteModule(@PathVariable UUID courseId, @PathVariable UUID moduleId) {
+        Optional<Module> moduleIntoCourse = this.moduleService.findModuleIntoCourse(courseId, moduleId);
 
         if (moduleIntoCourse.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Module not found for this course");

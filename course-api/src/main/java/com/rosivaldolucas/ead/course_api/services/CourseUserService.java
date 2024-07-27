@@ -20,7 +20,7 @@ public class CourseUserService {
   private AuthUserClient authUserClient;
 
   public boolean existsByCourseAndUserId(Course course, UUID userId) {
-    return this.courseUserRepository.existsByCourseAndIdUser(course, userId);
+    return this.courseUserRepository.existsByCourseAndUserId(course, userId);
   }
 
   public CourseUser save(CourseUser courseUser) {
@@ -31,7 +31,7 @@ public class CourseUserService {
   public CourseUser saveAndSendSubscriptionUserInCourse(CourseUser courseUser) {
     courseUser = this.courseUserRepository.save(courseUser);
 
-    this.authUserClient.postSubscriptionUserInCourse(courseUser.getCourse().getId(), courseUser.getIdUser());
+    this.authUserClient.postSubscriptionUserInCourse(courseUser.getCourse().getId(), courseUser.getUserId());
 
     return courseUser;
   }

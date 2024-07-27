@@ -16,10 +16,10 @@ public interface ModuleRepository extends JpaRepository<Module, UUID>, JpaSpecif
     Module findByTitle(String title);
 
 //    @Modifying PARA UPDATE, INSERT OR DELETE
-    @Query(value = "SELECT * FROM MODULE WHERE ID_COURSE = :idCourse", nativeQuery = true)
-    List<Module> findAllModulesIntoCourse(@Param("idCourse") UUID idCourse);
+    @Query(value = "SELECT * FROM module_tb WHERE course_id = :courseId", nativeQuery = true)
+    List<Module> findAllModulesIntoCourse(@Param("courseId") UUID courseId);
 
-    @Query(value = "SELECT * FROM MODULE WHERE ID = :idModule AND ID_COURSE = :idCourse", nativeQuery = true)
-    Optional<Module> findModuleIntoCourse(@Param("idCourse") UUID idCourse, @Param("idModule") UUID idModule);
+    @Query(value = "SELECT * FROM module_tb WHERE id = :moduleId AND course_id = :courseId", nativeQuery = true)
+    Optional<Module> findModuleIntoCourse(@Param("courseId") UUID courseId, @Param("moduleId") UUID moduleId);
 
 }

@@ -57,13 +57,13 @@ public class SpecificationTemplate {
         };
     }
 
-    public static Specification<Course> courseUserId(UUID useId) {
+    public static Specification<Course> courseUserId(UUID userId) {
         return (root, query, cb) -> {
             query.distinct(true);
 
             Join<Course, CourseUser> courseUserJoin = root.join("coursesUsers");
 
-            return cb.equal(courseUserJoin.get("userId"), useId);
+            return cb.equal(courseUserJoin.get("userId"), userId);
         };
     }
 

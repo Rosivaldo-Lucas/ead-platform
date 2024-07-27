@@ -15,7 +15,7 @@ import java.util.UUID;
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
-@Table(name = "LESSON")
+@Table(name = "lesson_tb")
 public class Lesson implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -34,9 +34,9 @@ public class Lesson implements Serializable {
     private String videoUrl;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @Fetch(FetchMode.SUBSELECT)
+//    @Fetch(FetchMode.SUBSELECT)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_MODULE")
+    @JoinColumn(name = "module_id")
     private Module module;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")

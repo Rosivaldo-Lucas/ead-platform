@@ -36,8 +36,8 @@ public class ModuleService {
         return this.moduleRepository.findById(id);
     }
 
-    public Optional<Module> findModuleIntoCourse(UUID idCourse, UUID idModule) {
-        return this.moduleRepository.findModuleIntoCourse(idCourse, idModule);
+    public Optional<Module> findModuleIntoCourse(UUID courseId, UUID moduleId) {
+        return this.moduleRepository.findModuleIntoCourse(courseId, moduleId);
     }
 
     public void save(Module module) {

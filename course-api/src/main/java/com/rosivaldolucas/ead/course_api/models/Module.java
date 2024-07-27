@@ -15,7 +15,7 @@ import java.util.UUID;
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
-@Table(name = "MODULE")
+@Table(name = "module_tb")
 public class Module implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -32,7 +32,7 @@ public class Module implements Serializable {
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_COURSE")
+    @JoinColumn(name = "course_id")
     private Course course;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

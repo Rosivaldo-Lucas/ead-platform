@@ -32,14 +32,14 @@ public class LessonController {
     @Autowired
     ModuleService moduleService;
 
-    @GetMapping("/modules/{idModule}/lessons")
-    public ResponseEntity<Page<Lesson>> getAllLessons(@PathVariable UUID idModule, SpecificationTemplate.LessonSpec spec, @PageableDefault(sort = "idLesson", direction = Sort.Direction.ASC) Pageable pageable) {
-        return ResponseEntity.status(HttpStatus.OK).body(lessonService.findAllByModule(SpecificationTemplate.lessonModuleId(idModule).and(spec), pageable));
+    @GetMapping("/modules/{moduleId}/lessons")
+    public ResponseEntity<Page<Lesson>> getAllLessons(@PathVariable UUID moduleId, SpecificationTemplate.LessonSpec spec, @PageableDefault(sort = "lessonId", direction = Sort.Direction.ASC) Pageable pageable) {
+        return ResponseEntity.status(HttpStatus.OK).body(lessonService.findAllByModule(SpecificationTemplate.lessonModuleId(moduleId).and(spec), pageable));
     }
 
-    @GetMapping("/modules/{idModule}/lessons/{idLesson}")
-    public ResponseEntity<Object> getOneLesson(@PathVariable UUID idModule, @PathVariable UUID idLesson) {
-        Optional<Lesson> lessonModelOptional = lessonService.findLessonIntoModule(idModule, idLesson);
+    @GetMapping("/modules/{moduleId}/lessons/{lessonId}")
+    public ResponseEntity<Object> getOneLesson(@PathVariable UUID moduleId, @PathVariable UUID lessonId) {
+        Optional<Lesson> lessonModelOptional = lessonService.findLessonIntoModule(moduleId, lessonId);
 
         if (lessonModelOptional.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Lesson not found for this module.");
@@ -48,9 +48,9 @@ public class LessonController {
         return ResponseEntity.status(HttpStatus.OK).body(lessonModelOptional.get());
     }
 
-    @PostMapping("/modules/{idModule}/lessons")
-    public ResponseEntity<?> saveLesson(@PathVariable UUID idModule, @RequestBody @Valid LessonDto lessonDto) {
-        Optional<Module> moduleModelOptional = moduleService.findById(idModule);
+    @PostMapping("/modules/{moduleId}/lessons")
+    public ResponseEntity<?> saveLesson(@PathVariable UUID moduleId, @RequestBody @Valid LessonDto lessonDto) {
+        Optional<Module> moduleModelOptional = moduleService.findById(moduleId);
 
         if (moduleModelOptional.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Module Not Found.");
@@ -64,9 +64,9 @@ public class LessonController {
         return ResponseEntity.status(HttpStatus.CREATED).body(lessonService.save(lessonModel));
     }
 
-    @PutMapping("/modules/{idModule}/lessons/{idLesson}")
-    public ResponseEntity<Object> updateLesson(@PathVariable UUID idModule, @PathVariable UUID idLesson, @RequestBody @Valid LessonDto lessonDto) {
-        Optional<Lesson> lessonModelOptional = lessonService.findLessonIntoModule(idModule, idLesson);
+    @PutMapping("/modules/{moduleId}/lessons/{lessonId}")
+    public ResponseEntity<Object> updateLesson(@PathVariable UUID moduleId, @PathVariable UUID lessonId, @RequestBody @Valid LessonDto lessonDto) {
+        Optional<Lesson> lessonModelOptional = lessonService.findLessonIntoModule(moduleId, lessonId);
 
         if (lessonModelOptional.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Lesson not found for this module.");
@@ -80,9 +80,9 @@ public class LessonController {
         return ResponseEntity.status(HttpStatus.OK).body(lessonService.save(lessonModel));
     }
 
-    @DeleteMapping("/modules/{idModule}/lessons/{idLesson}")
-    public ResponseEntity<?> deleteLesson(@PathVariable UUID idModule, @PathVariable UUID idLesson){
-        Optional<Lesson> lessonModelOptional = lessonService.findLessonIntoModule(idModule, idLesson);
+    @DeleteMapping("/modules/{moduleId}/lessons/{lessonId}")
+    public ResponseEntity<?> deleteLesson(@PathVariable UUID moduleId, @PathVariable UUID lessonId){
+        Optional<Lesson> lessonModelOptional = lessonService.findLessonIntoModule(moduleId, lessonId);
 
         if(lessonModelOptional.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Lesson not found for this module.");

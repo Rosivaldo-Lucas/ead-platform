@@ -6,9 +6,9 @@ spring:
     name: ead-course-service
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/ead-course
-    username: course
-    password: course
+    url: jdbc:postgresql://localhost:5433/db-ead-course
+    username: ead-course
+    password: ead-course
   jpa:
     hibernate:
       ddl-auto: update

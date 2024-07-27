@@ -23,7 +23,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
-@Table(name = "COURSE")
+@Table(name = "course_tb")
 public class Course implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -55,7 +55,7 @@ public class Course implements Serializable {
   // @OnDelete(action = OnDeleteAction.CASCADE) - MAIS PERFORMATICO / SEM CONTROLE DO DELETE
   // cascade = CascadeType.ALL, orphanRemoval = true
   @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-  @Fetch(FetchMode.SUBSELECT)
+//  @Fetch(FetchMode.SUBSELECT)
   @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
   private Set<Module> modules = new HashSet<>();
 

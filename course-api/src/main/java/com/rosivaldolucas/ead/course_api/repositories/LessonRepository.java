@@ -14,10 +14,10 @@ import java.util.UUID;
 @Repository
 public interface LessonRepository extends JpaRepository<Lesson, UUID>, JpaSpecificationExecutor<Lesson> {
 
-    @Query(value = "SELECT * FROM LESSON WHERE ID_MODULE = :idModule", nativeQuery = true)
-    List<Lesson> findAllLessonsIntoModule(@Param("idModule") UUID idModule);
+    @Query(value = "SELECT * FROM lesson_tb WHERE module_id = :moduleId", nativeQuery = true)
+    List<Lesson> findAllLessonsIntoModule(@Param("moduleId") UUID moduleId);
 
-    @Query(value = "select * from tb_lessons where module_module_id = :moduleId and lesson_id = :lessonId", nativeQuery = true)
+    @Query(value = "select * from lesson_tb where module_id = :moduleId and lesson_id = :lessonId", nativeQuery = true)
     Optional<Lesson> findLessonIntoModule(@Param("moduleId") UUID moduleId, @Param("lessonId") UUID lessonId);
 
 }
