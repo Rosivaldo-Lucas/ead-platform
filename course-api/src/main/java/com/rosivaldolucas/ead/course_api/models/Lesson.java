@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -34,7 +32,6 @@ public class Lesson implements Serializable {
     private String videoUrl;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-//    @Fetch(FetchMode.SUBSELECT)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "module_id")
     private Module module;

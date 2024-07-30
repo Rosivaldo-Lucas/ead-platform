@@ -1,8 +1,6 @@
 package com.rosivaldolucas.ead.authuser_api.services;
 
 import com.rosivaldolucas.ead.authuser_api.models.User;
-import com.rosivaldolucas.ead.authuser_api.models.UserCourse;
-import com.rosivaldolucas.ead.authuser_api.repositories.UserCourseRepository;
 import com.rosivaldolucas.ead.authuser_api.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,9 +18,6 @@ public class UserService {
 
   @Autowired
   private UserRepository userRepository;
-
-  @Autowired
-  private UserCourseRepository userCourseRepository;
 
   public List<User> findAll() {
     return this.userRepository.findAll();
@@ -44,19 +39,13 @@ public class UserService {
     return this.userRepository.existsByEmail(email);
   }
 
-  @Transactional
-  public void delete(User user) {
-    List<UserCourse> userCourseList = this.userCourseRepository.findAllUserCourseIntoUser(user.getId());
-
-    if (!userCourseList.isEmpty()) {
-      this.userCourseRepository.deleteAll(userCourseList);
-    }
-
-    this.userRepository.delete(user);
-  }
-
   public void save(User user) {
     this.userRepository.save(user);
+  }
+
+  @Transactional
+  public void delete(User user) {
+    this.userRepository.delete(user);
   }
 
 }

@@ -8,8 +8,6 @@ import com.rosivaldolucas.ead.course_api.enums.CourseStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -52,25 +50,14 @@ public class Course implements Serializable {
   @Column(nullable = false)
   private UUID userInstructor;
 
-  // @OnDelete(action = OnDeleteAction.CASCADE) - MAIS PERFORMATICO / SEM CONTROLE DO DELETE
-  // cascade = CascadeType.ALL, orphanRemoval = true
   @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-//  @Fetch(FetchMode.SUBSELECT)
   @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
   private Set<Module> modules = new HashSet<>();
-
-  @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-  @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
-  private Set<CourseUser> courseUsers = new HashSet<>();
 
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
   private LocalDateTime createdAt;
 
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
   private LocalDateTime updatedAt;
-
-  public CourseUser converterToCourseUser(UUID userId) {
-    return new CourseUser(null, this, userId);
-  }
 
 }
