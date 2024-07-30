@@ -54,6 +54,15 @@ public class Course implements Serializable {
   @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
   private Set<Module> modules = new HashSet<>();
 
+  @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+  @ManyToMany(fetch = FetchType.LAZY)
+  @JoinTable(
+    name = "course_user_tb",
+    joinColumns = @JoinColumn(name = "course_id"),
+    inverseJoinColumns = @JoinColumn(name = "user_id")
+  )
+  private Set<User> users = new HashSet<>();
+
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
   private LocalDateTime createdAt;
 

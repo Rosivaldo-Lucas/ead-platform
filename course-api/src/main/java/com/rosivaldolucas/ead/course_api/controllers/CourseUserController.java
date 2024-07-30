@@ -3,6 +3,9 @@ package com.rosivaldolucas.ead.course_api.controllers;
 import com.rosivaldolucas.ead.course_api.dtos.SubscriptionDTO;
 import com.rosivaldolucas.ead.course_api.models.Course;
 import com.rosivaldolucas.ead.course_api.services.CourseService;
+import com.rosivaldolucas.ead.course_api.services.UserService;
+import com.rosivaldolucas.ead.course_api.specifications.SpecificationTemplate;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -22,12 +25,22 @@ public class CourseUserController {
   @Autowired
   private CourseService courseService;
 
+  @Autowired
+  private UserService userService;
+
   @GetMapping("/courses/{courseId}/users")
   public ResponseEntity<?> getAllUsersByCourse(
           @PathVariable UUID courseId,
+          SpecificationTemplate.UserSpec spec,
           @PageableDefault(sort = "courseId", direction = Sort.Direction.ASC) Pageable pageable
   ) {
-    return ResponseEntity.status(HttpStatus.OK).body("");
+    Optional<Course> courseOptional = this.courseService.findById(courseId);
+
+    if (courseOptional.isEmpty()) {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Course not found.");
+    }
+
+    return ResponseEntity.status(HttpStatus.OK).body(this.userService.findAll(SpecificationTemplate.userCourseId(courseId).and(spec), pageable));
   }
 
   @PostMapping("/courses/{courseId}/users/subscription")

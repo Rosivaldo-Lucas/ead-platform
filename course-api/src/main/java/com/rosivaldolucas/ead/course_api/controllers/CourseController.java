@@ -41,7 +41,11 @@ public class CourseController {
           SpecificationTemplate.CourseSpec spec,
           @PageableDefault(sort = "courseId", direction = Sort.Direction.ASC)Pageable pageable
   ) {
-    return ResponseEntity.ok(courseService.findAll(spec, pageable));
+    if (userId != null) {
+      return ResponseEntity.ok(courseService.findAll(SpecificationTemplate.courseUserId(userId).and(spec), pageable));
+    } else {
+      return ResponseEntity.ok(courseService.findAll(spec, pageable));
+    }
   }
 
   @GetMapping("/{id}")
