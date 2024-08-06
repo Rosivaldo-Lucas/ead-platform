@@ -3,11 +3,15 @@ package com.rosivaldolucas.ead.authuser_api.models;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.rosivaldolucas.ead.authuser_api.dtos.UserEventDTO;
 import com.rosivaldolucas.ead.authuser_api.enums.UserStatus;
 import com.rosivaldolucas.ead.authuser_api.enums.UserType;
 import lombok.Data;
 
 import javax.persistence.*;
+
+import org.springframework.beans.BeanUtils;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -61,5 +65,16 @@ public class User implements Serializable {
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
   @Column(nullable = false)
   private LocalDateTime updatedAt;
+
+  public UserEventDTO convertToUserEventDTO() {
+    UserEventDTO userEventDTO = new UserEventDTO();
+    
+    BeanUtils.copyProperties(this, userEventDTO);
+
+    userEventDTO.setUserType(this.getUserType().toString());
+    userEventDTO.setUserStatus(this.getUserStatus().toString());
+
+    return userEventDTO;
+  }
 
 }

@@ -67,9 +67,9 @@ public class AuthenticationController {
     newUser.setUserStatus(UserStatus.ACTIVE);
     newUser.setUserType(UserType.STUDENT);
     newUser.setCreatedAt(LocalDateTime.now(ZoneId.of("UTC")));
-    newUser.setCreatedAt(LocalDateTime.now(ZoneId.of("UTC")));
+    newUser.setUpdatedAt(LocalDateTime.now(ZoneId.of("UTC")));
 
-    this.userService.save(newUser);
+    this.userService.saveUser(newUser);
 
     log.debug("POST signup idUser saved: {}", newUser.getId());
     log.info("POST signup user successfully idUser: {}", newUser.getId());

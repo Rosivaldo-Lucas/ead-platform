@@ -1,6 +1,9 @@
 package com.rosivaldolucas.ead.authuser_api.services;
 
+import com.rosivaldolucas.ead.authuser_api.dtos.UserEventDTO;
+import com.rosivaldolucas.ead.authuser_api.enums.ActionType;
 import com.rosivaldolucas.ead.authuser_api.models.User;
+import com.rosivaldolucas.ead.authuser_api.producers.UserEventProducer;
 import com.rosivaldolucas.ead.authuser_api.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,6 +21,9 @@ public class UserService {
 
   @Autowired
   private UserRepository userRepository;
+
+  @Autowired
+  private UserEventProducer userEventProducer;
 
   public List<User> findAll() {
     return this.userRepository.findAll();
@@ -39,8 +45,41 @@ public class UserService {
     return this.userRepository.existsByEmail(email);
   }
 
-  public void save(User user) {
-    this.userRepository.save(user);
+  public User save(User user) {
+    return this.userRepository.save(user);
+  }
+
+  @Transactional
+  public User saveUser(User user) {
+    User newUser = this.save(user);
+
+    UserEventDTO userEventDTO = newUser.convertToUserEventDTO();
+
+    this.userEventProducer.producerUseEvent(userEventDTO, ActionType.CREATE);
+
+    return newUser;
+  }
+
+  @Transactional
+  public User updateUser(User user) {
+    User newUser = this.save(user);
+
+    UserEventDTO userEventDTO = newUser.convertToUserEventDTO();
+
+    this.userEventProducer.producerUseEvent(userEventDTO, ActionType.UPDATE);
+
+    return newUser;
+  }
+
+  public User updatePassword(User user) {
+    return this.save(user);
+  }
+
+  @Transactional
+  public void deleteUser(User user) {
+    this.delete(user);
+
+    this.userEventProducer.producerUseEvent(user.convertToUserEventDTO(), ActionType.DELETE);
   }
 
   @Transactional

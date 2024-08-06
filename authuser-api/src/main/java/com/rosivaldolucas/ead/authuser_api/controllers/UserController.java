@@ -65,7 +65,7 @@ public class UserController {
       user.setPhoneNumber(userDTO.getPhoneNumber());
       user.setUpdatedAt(LocalDateTime.now(ZoneId.of("UTC")));
 
-      this.userService.save(user);
+      this.userService.updateUser(user);
 
       log.debug("PUT updateUser idUser updated {}", id);
       log.info("PUT updateUser user updated successfully idUser {}", id);
@@ -96,7 +96,7 @@ public class UserController {
       user.setPassword(userDTO.getPassword());
       user.setUpdatedAt(LocalDateTime.now(ZoneId.of("UTC")));
 
-      this.userService.save(user);
+      this.userService.updatePassword(user);
 
       log.debug("PUT updatePassword idUser updated {}", id);
       log.info("PUT updatePassword user updated successfully idUser {}", id);
@@ -121,7 +121,7 @@ public class UserController {
       user.setImageUrl(userDTO.getImageUrl());
       user.setUpdatedAt(LocalDateTime.now(ZoneId.of("UTC")));
 
-      this.userService.save(user);
+      this.userService.updateUser(user);
 
       log.debug("PUT updateImage idUser updated {}", id);
       log.info("PUT updateImage user updated successfully idUser {}", id);
@@ -139,7 +139,7 @@ public class UserController {
     Optional<User> userOptional = this.userService.findById(id);
 
     if (userOptional.isPresent()) {
-      this.userService.delete(userOptional.get());
+      this.userService.deleteUser(userOptional.get());
 
       log.debug("DELETE deleteUser idUser deleted {}", id);
       log.info("DELETE deleteUser user deleted successfully idUser: {}", id);
