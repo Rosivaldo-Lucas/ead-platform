@@ -37,8 +37,17 @@ public class CourseService {
         return this.courseRepository.findById(id);
     }
 
+    public boolean existsByCourseAndUser(UUID courseId, UUID userId) {
+        return this.courseRepository.existsByCourseAndUser(courseId, userId);
+    }
+
     public void save(Course course) {
         this.courseRepository.save(course);
+    }
+
+    @Transactional
+    public void saveSubscriptionUserInCourse(UUID courseId, UUID userId) {
+        this.courseRepository.saveCourseUser(courseId, userId);
     }
 
     @Transactional
