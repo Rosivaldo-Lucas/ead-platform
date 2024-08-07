@@ -1,7 +1,9 @@
 package com.rosivaldolucas.ead.course_api.controllers;
 
 import com.rosivaldolucas.ead.course_api.dtos.SubscriptionDTO;
+import com.rosivaldolucas.ead.course_api.enums.UserStatus;
 import com.rosivaldolucas.ead.course_api.models.Course;
+import com.rosivaldolucas.ead.course_api.models.User;
 import com.rosivaldolucas.ead.course_api.services.CourseService;
 import com.rosivaldolucas.ead.course_api.services.UserService;
 import com.rosivaldolucas.ead.course_api.specifications.SpecificationTemplate;
@@ -54,7 +56,26 @@ public class CourseUserController {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Course not found");
     }
 
-    return ResponseEntity.status(HttpStatus.CREATED).body("");
+    Optional<User> userOptional = this.userService.findById(subscriptionDTO.getUserId());
+
+    if (userOptional.isEmpty()) {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+    }
+
+    Course course = courseOptional.get();
+    User user = userOptional.get();
+
+    if (this.courseService.existsByCourseAndUser(course.getId(), user.getId()) {
+      return ResponseEntity.status(HttpStatus.CONFLICT).body("Error: subscription already exists");
+    }
+
+    if (user.getUserStatus().equals(UserStatus.BLOCKED.toString())) {
+      return ResponseEntity.status(HttpStatus.CONFLICT).body("Error: User is blocked");
+    }
+
+    this.courseService.saveSubscriptionUserInCourse(course.getId(), user.getId());
+
+    return ResponseEntity.status(HttpStatus.CREATED).body("Subscription created successfully");
   }
 
 }

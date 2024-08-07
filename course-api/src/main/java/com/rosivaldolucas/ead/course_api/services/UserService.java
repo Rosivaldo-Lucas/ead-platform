@@ -3,6 +3,7 @@ package com.rosivaldolucas.ead.course_api.services;
 import com.rosivaldolucas.ead.course_api.models.User;
 import com.rosivaldolucas.ead.course_api.repositories.UserRepository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,10 @@ public class UserService {
 
   public Page<User> findAll(Specification<User> spec, Pageable pageable) {
     return this.userRepository.findAll(spec, pageable);
+  }
+
+  public Optional<User> findById(UUID userId) {
+    return this.userRepository.findById(userId);
   }
 
   public User save(User user) {
